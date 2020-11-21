@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Aluno;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AlunoController extends Controller
 {
@@ -100,5 +102,35 @@ class AlunoController extends Controller
     {
         $id->delete();
         return response("Deleted",200);
+    }
+
+    public function consultaNomeEmail(Request $request){
+        $nome = $request->input('nome');
+        $email = $request->input('email');
+        $aluno = Aluno::where([
+            ['nome', 'LIKE', '%'.$nome.'%'],
+            ['email','LIKE', '%'.$email.'%']
+        ])->get();
+        if($aluno){
+            return response($aluno,200);
+        }
+        return response("Not Found",404);
+        
+    }
+
+    public function profiling(){
+        $menores15 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(0,14))->get();
+        $entre15e18 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(15,18))->get();
+        $entre19e24 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(19,24))->get();
+        $entre25e30 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(25,30))->get();
+        $maior30 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(30,100))->get();
+        dd($entre19e24);
+        return response()->json([
+            "Menor que 15 anos"=> $menores15,
+            "Entre 15 e 18 anos" => $entre15e18,
+            "Entre 19 e 24 anos" => $entre19e24,
+            "Entre 25 e 30 anos" => $entre25e30,
+            "Maior que 30 anos" => $maior30,
+        ]);
     }
 }

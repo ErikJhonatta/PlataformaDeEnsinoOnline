@@ -27,6 +27,9 @@ Route::get('/aluno/show/{id}',[AlunoController::class, 'show']);
 Route::put('/aluno/edit/{id}',[AlunoController::class, 'update']);
 Route::delete('/aluno/delete/{id}',[AlunoController::class, 'destroy']);
 
+Route::post('/aluno/consulta/nomeEmail',[AlunoController::class, 'consultaNomeEmail']);
+Route::get('/aluno/profiling',[AlunoController::class, 'profiling']);
+
 Route::post('/curso/create',[CursoController::class, 'store']);
 Route::get('/curso/list',[CursoController::class, 'index']);
 Route::get('/curso/show/{id}',[CursoController::class, 'show']);
