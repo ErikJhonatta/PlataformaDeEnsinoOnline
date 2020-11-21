@@ -119,12 +119,11 @@ class AlunoController extends Controller
     }
 
     public function profiling(){
-        $menores15 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(0,14))->get();
-        $entre15e18 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(15,18))->get();
-        $entre19e24 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(19,24))->get();
-        $entre25e30 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(25,30))->get();
-        $maior30 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(30,100))->get();
-        dd($entre19e24);
+        $menores15 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(0,14))->count();
+        $entre15e18 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(15,18))->count();
+        $entre19e24 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(19,24))->count();
+        $entre25e30 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(25,30))->count();
+        $maior30 = Aluno::whereBetween(DB::raw('TIMESTAMPDIFF(YEAR,alunos.data_nasc,CURDATE())'),array(30,100))->count();
         return response()->json([
             "Menor que 15 anos"=> $menores15,
             "Entre 15 e 18 anos" => $entre15e18,
