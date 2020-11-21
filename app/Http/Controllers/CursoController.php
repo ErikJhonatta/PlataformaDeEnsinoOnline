@@ -48,9 +48,12 @@ class CursoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Curso $id)
     {
-        //
+        if($id){
+            return response($id,200);
+        }
+        return response('Not Found',404);
     }
 
     /**
@@ -91,5 +94,5 @@ class CursoController extends Controller
         return response("Deleted",200);
 
     }
-    
+
 }

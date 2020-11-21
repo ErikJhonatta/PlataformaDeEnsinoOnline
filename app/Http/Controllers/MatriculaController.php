@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Aluno;
+use App\Models\Aluno_Curso;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class AlunoController extends Controller
+class MatriculaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +15,8 @@ class AlunoController extends Controller
      */
     public function index()
     {
-        $alunos = Aluno::all();
-        return response($alunos,200);
+        $matriculas = Aluno_Curso::all();
+        return response($matriculas,200);
     }
 
     /**
@@ -37,15 +38,11 @@ class AlunoController extends Controller
     public function store(Request $request)
     {
 
-        $aluno = new Aluno();
-        $aluno->fill($request->all());
-        $time = strtotime($request->input('data_nasc'));
-        $data = date('Y-m-d',$time);
-        $aluno->data_nasc = $data;
-        $aluno->save();
-
-        return response("Success",201);
-
+        $aluno_id = $request->input('aluno_id');
+        $curso_id = $request->input('curso_id');
+        $data = new \DateTime();
+        DB::insert('insert into aluno_cursos (aluno_id, curso_id, created_at, updated_at) values (?, ?, ?, ?)', [$aluno_id, $curso_id,$data,$data]);
+        return response("Success",200);
     }
 
     /**
@@ -54,12 +51,9 @@ class AlunoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Aluno $id)
+    public function show(Aluno_Curso $id)
     {
-        if($id){
-            return response($id,200);
-        }
-        return response('Not Found',404);
+        return response($id,200);
     }
 
     /**
@@ -80,12 +74,9 @@ class AlunoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Aluno $id)
+    public function update(Request $request, Aluno_Curso $id)
     {
         $id->fill($request->all());
-        $time = strtotime($request->input('data_nasc'));
-        $data = date('Y-m-d',$time);
-        $id->data_nasc = $data;
         $id->save();
         return response("Updated",200);
     }
@@ -96,7 +87,7 @@ class AlunoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Aluno $id)
+    public function destroy(Aluno_Curso $id)
     {
         $id->delete();
         return response("Deleted",200);

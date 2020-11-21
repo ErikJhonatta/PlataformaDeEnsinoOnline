@@ -6,14 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Curso extends Model
+class Aluno_Curso extends Model
 {
     use HasFactory;
     use SoftDeletes;
 
-    protected $fillable = ['titulo', 'descricao'];
+    protected $fillable = ['aluno_id', 'curso_id'];
 
-    public function matriculas(){
-        return $this->belongsToMany('app/Models/Aluno','aluno_cursos');
-    }
+    protected $table =  'aluno_cursos';
 }
